@@ -18,7 +18,6 @@ const Header = () => {
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
   const [isMenu, setIsMenu] = useState(false);
-  const [isHover, setHover] = useState(false);
   const login = async () => {
     if (!user) {
       const {
