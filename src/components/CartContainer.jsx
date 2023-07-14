@@ -7,12 +7,16 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import EmptyCart from "../img/emptyCart.svg";
 import CartItem from "./CartItem";
+import { useNavigate } from "react-router-dom/dist";
 
 const CartContainer = () => {
   const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
   const [flag, setFlag] = useState(1);
   const [tot, setTot] = useState(0);
-
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/checkout");
+  };
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
@@ -25,7 +29,7 @@ const CartContainer = () => {
       return accumulator + item.qty * item.price;
     }, 0);
     setTot(totalPrice);
-    console.log(tot);
+    localStorage.setItem("amount", tot);
   }, [tot, flag]);
 
   const clearCart = () => {
@@ -33,8 +37,6 @@ const CartContainer = () => {
       type: actionType.SET_CARTITEMS,
       cartItems: [],
     });
-
-    localStorage.setItem("cartItems", JSON.stringify([]));
   };
 
   return (
@@ -99,6 +101,7 @@ const CartContainer = () => {
 
             {user ? (
               <motion.button
+                onClick={handleNavigate}
                 whileTap={{ scale: 0.8 }}
                 type="button"
                 className="w-full p-2 rounded-full bg-gradient-to-tr from-orange-400 to-orange-600 text-gray-50 text-lg my-2 hover:shadow-lg"

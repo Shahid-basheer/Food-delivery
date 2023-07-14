@@ -5,10 +5,11 @@ import { CreateContainer, Header, MainContainer } from "./components";
 import { useStateValue } from "./context/StateProvider";
 import { getAllFoodItems } from "./utils/firebaseFunctions";
 import { actionType } from "./context/reducer";
-
+import { FormContainer } from "./components/Address";
+import { useLocation } from "react-router-dom/dist";
 const App = () => {
   const [{ foodItems }, dispatch] = useStateValue();
-
+  const location = useLocation();
   const fetchData = async () => {
     await getAllFoodItems().then((data) => {
       dispatch({
@@ -20,7 +21,7 @@ const App = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [location.pathname]);
 
   return (
     <AnimatePresence exitBeforeEnter>
@@ -31,6 +32,7 @@ const App = () => {
           <Routes>
             <Route path="/*" element={<MainContainer />} />
             <Route path="/createItem" element={<CreateContainer />} />
+            <Route path="/checkout" element={<FormContainer />} />
           </Routes>
         </main>
       </div>
